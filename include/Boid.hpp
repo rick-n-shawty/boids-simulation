@@ -1,3 +1,5 @@
+#include <cmath> 
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #ifndef BOID_HPP 
 #define BOID_HPP 
@@ -15,16 +17,21 @@ class Boid{
         sf::Vector2f getVelocity(){
             return velocity; 
         }
-        sf::Vector2f getVelocityDir(){
-            float mag = velocity.x * velocity.x + velocity.y * velocity.y;
-            if(mag != 0){
-                return (velocity / mag);
-            }else{
-                return velocity;
-            }
+        sf::Vector2f getNormalVel(){
+            float mag = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+            sf::Vector2f newVel(0,0);
+            if(mag == 0){
+                return newVel;
+            } 
+            newVel.x = (velocity.x) / mag; 
+            newVel.y = (velocity.y) / mag; 
+            return newVel;
         }
-        void setVelocity(sf::Vector2f& newVel){
+        void setVelocity(sf::Vector2f newVel){
             velocity = newVel; 
+        }
+        void move(){
+            triangle.move(velocity);
         }
         bool isClose(Boid*& boid){
             float x1 = getPos().x;

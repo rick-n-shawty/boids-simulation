@@ -2,12 +2,14 @@
 #include "Canvas.hpp"
 #include "Boid.hpp"
 #include "Utils.hpp"
+
 using std::cout; 
 
 
 Canvas::Canvas(int width, int height){
     for(int i = 0; i < 20; i++){
-        boids.push_back(new Boid(randomInt(0,width),randomInt(0,height),15, 30));
+        boids.push_back(new Boid(randomInt(100,200),randomInt(100,200),15, 30));
+        boids[i]->setVelocity(sf::Vector2f(0.01, 0.01));
     }
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
@@ -32,24 +34,27 @@ void Canvas::handleEvents(){
 void Canvas::update(float dt){
     for(int i = 0; i < boids.size(); i++){
         // averageVelocity; 
+        cout << "velX: " << boids[i]->getNormalVel().x << " velY: " << boids[i]->getNormalVel().y << '\n';
         sf::Vector2f avgVel(0,0);
         int count = 0;
-        for(int j = 0; j < boids.size(); j++){
-            if(boids[i]->isClose(boids[j]) && boids[i] != boids[j]){
-                avgVel += boids[i]->getVelocityDir();
-                count++; 
-            }
-        }
-        if(count == 0) count = 1;
-        avgVel.x = avgVel.x / count;
-        avgVel.y = avgVel.y / count;
-        boids[i]->setVelocity(avgVel);
+        // for(int j = 0; j < boids.size(); j++){
+            // if(boids[i]->isClose(boids[j]) && boids[i] != boids[j]){
+                // avgVel += boids[j]->getVelocityDir();
+                // count++; 
+            // }
+        // }
+        // if(count == 0) count = 1;
+        // avgVel.x = avgVel.x / count;
+        // avgVel.y = avgVel.y / count;
+        // cout << "velX: " << avgVel.x << " velY: " << avgVel.y << "\n"; 
+        // boids[i]->setVelocity(avgVel);
+        // boids[i]->move();
     }
+    // cout << boids[0]->getPos().x << "\n";
 }
 void Canvas::render(){
     window.clear(sf::Color::Black); 
     for(int i = 0; i < boids.size(); i++){
-        cout << boids.size() << "\n";
         boids[i]->show(window);
     }
     window.display();
