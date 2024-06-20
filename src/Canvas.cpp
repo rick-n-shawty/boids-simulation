@@ -9,7 +9,6 @@ using std::cout;
 Canvas::Canvas(int width, int height){
     for(int i = 0; i < 20; i++){
         boids.push_back(new Boid(randomInt(100,200),randomInt(100,200),15, 30));
-        boids[i]->setVelocity(sf::Vector2f(0.01, 0.01));
     }
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
@@ -34,21 +33,21 @@ void Canvas::handleEvents(){
 void Canvas::update(float dt){
     for(int i = 0; i < boids.size(); i++){
         // averageVelocity; 
-        cout << "velX: " << boids[i]->getNormalVel().x << " velY: " << boids[i]->getNormalVel().y << '\n';
-        sf::Vector2f avgVel(0,0);
+        // cout << "velX: " << boids[i]->getNormalVel().x << " velY: " << boids[i]->getNormalVel().y << '\n';
+        sf::Vector2f avgVel;
         int count = 0;
-        // for(int j = 0; j < boids.size(); j++){
-            // if(boids[i]->isClose(boids[j]) && boids[i] != boids[j]){
-                // avgVel += boids[j]->getVelocityDir();
-                // count++; 
-            // }
-        // }
-        // if(count == 0) count = 1;
-        // avgVel.x = avgVel.x / count;
-        // avgVel.y = avgVel.y / count;
-        // cout << "velX: " << avgVel.x << " velY: " << avgVel.y << "\n"; 
+        for(int j = 0; j < boids.size(); j++){
+            if(boids[i]->isClose(boids[j]) && boids[i] != boids[j]){
+                avgVel += boids[j]->getNormalVel();
+                count++; 
+            }
+        }
+        if(count == 0) count = 1; 
+        avgVel.x = avgVel.x / count;
+        avgVel.y = avgVel.y / count;
+        cout << "velX: " << avgVel.x << " velY: " << avgVel.y << "\n"; 
         // boids[i]->setVelocity(avgVel);
-        // boids[i]->move();
+        boids[i]->move();
     }
     // cout << boids[0]->getPos().x << "\n";
 }
