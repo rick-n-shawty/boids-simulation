@@ -17,6 +17,9 @@ class Boid{
         sf::Vector2f getVelocity(){
             return velocity; 
         }
+        float getVelocityMag(){
+            return sqrt(pow(velocity.x, 2) + pow(velocity.y, 2));
+        }
         sf::Vector2f getNormalVel(){
             float mag = (velocity.x * velocity.x) + (velocity.y * velocity.y);
             sf::Vector2f newVel(0,0);
@@ -39,10 +42,10 @@ class Boid{
             float x2 = boid->getPos().x; 
             float y2 = boid->getPos().y; 
 
-            float dist = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1); 
-            return dist < perception;
+            float dist = pow(x2 - x1, 2) + pow(y2 - y1, 2); 
+            return (dist < pow(perception,2));
         }
-        
+
         int getPerception(){
             return perception;
         }
@@ -52,7 +55,7 @@ class Boid{
     private: 
         sf::ConvexShape triangle; 
         sf::Vector2f velocity;
-        int perception = 50;
+        int perception = 150;
         float maxSpeed = 1.5;
         float minSpeed = 0.1;
 };

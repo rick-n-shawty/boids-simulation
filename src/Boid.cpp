@@ -18,6 +18,8 @@ Boid::Boid(float x, float y, float width, float height){
     triangle.setPosition(sf::Vector2f(x,y));
     triangle.setFillColor(sf::Color::Red);
 
+
+    // set up initial velocity 
     float xVel = randomFloat(minSpeed, maxSpeed);
     float yVel = sqrt(maxSpeed - xVel); 
     velocity = sf::Vector2f(xVel,yVel);
