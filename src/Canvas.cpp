@@ -12,7 +12,7 @@ Canvas::Canvas(int width, int height){
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
     window.create(sf::VideoMode(width,height), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
-
+    window.setFramerateLimit(90);
 }; 
 Canvas::~Canvas(){
     // clean up dynamically allocated boids 
@@ -30,7 +30,21 @@ void Canvas::handleEvents(){
     
 }
 void Canvas::update(float dt){
-
+    for(int i = 0; i < boids.size(); i++){
+        // averageVelocity; 
+        sf::Vector2f avgVel(0,0);
+        int count = 0;
+        for(int j = 0; j < boids.size(); j++){
+            if(boids[i]->isClose(boids[j]) && boids[i] != boids[j]){
+                avgVel += boids[i]->getVelocityDir();
+                count++; 
+            }
+        }
+        if(count == 0) count = 1;
+        avgVel.x = avgVel.x / count;
+        avgVel.y = avgVel.y / count;
+        boids[i]->setVelocity(avgVel);
+    }
 }
 void Canvas::render(){
     window.clear(sf::Color::Black); 
