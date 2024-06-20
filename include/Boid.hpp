@@ -40,11 +40,18 @@ class Boid{
             float y2 = boid->getPos().y; 
 
             float dist = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1); 
-            return dist < 50;
+            return dist < perception;
+        }
+        int getPerception(){
+            return perception;
+        }
+        void setPerception(int& newPerception){
+            perception = newPerception;
         }
     private: 
         sf::ConvexShape triangle; 
         sf::Vector2f velocity;
+        int perception = 50;
 };
 
 
