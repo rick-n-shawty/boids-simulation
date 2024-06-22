@@ -20,9 +20,7 @@ Boid::Boid(float x, float y, float width, float height){
 
 
     // set up initial velocity 
-    float xVel = randomFloat(minSpeed, maxSpeed);
-    float yVel = sqrt(maxSpeed - xVel); 
-    velocity = sf::Vector2f(xVel,yVel);
+    velocity = randomVelocity(minSpeed, maxSpeed);
 }                                            
 
 Boid::~Boid(){

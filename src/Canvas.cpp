@@ -43,10 +43,10 @@ void Canvas::update(float dt){
         }
         if(count != 0){
             float mag = vectorMag(boids[i]->getVelocity()); 
-            cout << "Magnitude: " << mag << "\n";
+            // cout << "Magnitude: " << mag << "\n";
             avgVel.x = (avgVel.x / count) ;
             avgVel.y = (avgVel.y / count) ;
-            cout << "X: " << avgVel.x << " Y: " << avgVel.y << "\n";
+            // cout << "X: " << avgVel.x << " Y: " << avgVel.y << "\n";
         //     boids[i]->setVelocity(avgVel);
         };
         boids[i]->move();
