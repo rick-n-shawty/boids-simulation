@@ -10,6 +10,8 @@ Canvas::Canvas(int width, int height){
     for(int i = 0; i < 20; i++){
         boids.push_back(new Boid(randomInt(300,400),randomInt(200,300),15, 30));
     }
+    mainBounds = new Boundary(width / 2.0f, height / 2.0f, width, height);
+    qtree = new QuadTree(mainBounds, 4);
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
     window.create(sf::VideoMode(width,height), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
@@ -19,6 +21,10 @@ Canvas::~Canvas(){
     // clean up dynamically allocated boids 
     for(int i = 0; i < boids.size(); i++){
         delete boids[i]; 
+    }
+    if(qtree != nullptr){
+        delete qtree; 
+        qtree = nullptr;
     }
 };
 void Canvas::handleEvents(){
@@ -32,6 +38,9 @@ void Canvas::handleEvents(){
 }
 
 void Canvas::update(float dt){
+    if(qtree != nullptr) qtree->clearExceptRoot();
+    foundBoids.clear();
+
     totalTime += dt; 
     for(int i = 0; i < boids.size(); i++){
         sf::Vector2f avgVel;

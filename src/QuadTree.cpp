@@ -10,5 +10,6 @@ QuadTree::QuadTree(Boundary* bounds, int capacity){
 }
 
 QuadTree::~QuadTree(){
+    clearExceptRoot();
     delete boundary; 
 }

@@ -1,6 +1,7 @@
 #include <vector>
 #include "Boid.hpp"
 #include "Boundary.hpp"
+#include "Circle.hpp"
 #ifndef QUADTREE_HPP 
 #define QUADTREE_HPP 
 
@@ -54,7 +55,23 @@ class QuadTree{
             // Reset the isDivided flag
             isDivided = false;
         }
-        std::vector<Boid*> query(Boid*& boid, std::vector<Boid*>& foundBoids){
+        std::vector<Boid*> query(Circle*& region, std::vector<Boid*>& foundBoids){
+            if(!region->intersects(boundary)){
+                return foundBoids; 
+            }
+
+            for(int i = 0; i < entities.size(); i++){
+                if(region->contains(entities[i])){
+                    foundBoids.push_back(entities[i]);
+                }
+            }
+            if(isDivided){
+                NW->query(region, foundBoids);
+                NE->query(region, foundBoids); 
+                SW->query(region, foundBoids); 
+                SE->query(region, foundBoids);
+            }
+            return foundBoids;
         }
     private: 
         int capacity;

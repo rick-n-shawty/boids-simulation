@@ -11,9 +11,8 @@ class Circle{
             y = y1; 
             r = r1; 
         };
-        ~Circle(){
+        ~Circle(){}
 
-        }
         bool intersects(Boundary* boundary){
             return !(
                 x + r <  boundary->x  -  (boundary->w / 2) || 
@@ -21,6 +20,12 @@ class Circle{
                 y - r >  boundary->y  +  (boundary->h / 2) ||
                 y + r <  boundary->y  -  (boundary->h / 2) 
             );
+        }
+
+        bool contains(Boid* boid){
+            float dx = pow(boid->getPos().x - x, 2); 
+            float dy = pow(boid->getPos().y - y, 2); 
+            return (dy + dx < pow(r, 2)); 
         }
     private: 
 };
