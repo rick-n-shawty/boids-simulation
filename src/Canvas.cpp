@@ -10,8 +10,8 @@ Canvas::Canvas(int width, int height){
     queryRegion = new Circle(0,0,1);
     mainBounds = new Boundary(width / 2.0f, height / 2.0f, width, height);
     qtree = new QuadTree(mainBounds, 4);
-    for(int i = 0; i < 20; i++){
-        boids.push_back(new Boid(randomInt(300,400),randomInt(200,300), 15, 30));
+    for(int i = 0; i < 50; i++){
+        boids.push_back(new Boid(randomInt(0,width),randomInt(0,height), 15, 30));
         qtree->insert(boids[i]);
     }
     sf::ContextSettings settings; 
@@ -58,7 +58,7 @@ void Canvas::update(float dt){
         queryRegion->y = boids[i]->getPos().y; 
         queryRegion->r = boids[i]->getPerception(); 
         qtree->query(queryRegion,foundBoids); 
-        
+
         boids[i]->ASC(foundBoids); // allignment, separation, cohesion 
         boids[i]->move();
         boids[i]->show(window); 

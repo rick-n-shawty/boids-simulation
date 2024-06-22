@@ -22,12 +22,13 @@ inline float vectorMagnitude(sf::Vector2f vect){
     return (sqrt( pow(vect.x, 2) + pow(vect.y, 2) ));
 }
 inline sf::Vector2f normalize(sf::Vector2f vector){
-    float mag = vectorMagnitude(vector); 
-    if(mag != 0.00000f){
-        vector.x = vector.x / mag; 
-        vector.y = vector.y / mag;  
+    float mag = vectorMagnitude(vector);
+    constexpr float epsilon = 1e-6f; // Small epsilon value
+    if (mag > epsilon) {
+        vector.x /= mag;
+        vector.y /= mag;
     }
-    return vector; 
+    return vector;
 }
 inline sf::Vector2f randomVelocity(float minMag, float maxMag){
     float angle = randomFloat(0.0f, 2.0f * M_PI); 

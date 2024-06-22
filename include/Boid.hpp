@@ -54,23 +54,22 @@ class Boid{
   
         }
         void ASC(std::vector<Boid*>& neighbors){
-
-
+            if(neighbors.size() < 2) return; 
+            int total = 0;
+            sf::Vector2f avgVelocity; 
             for(int i = 0; i < neighbors.size(); i++){
-
+                if(neighbors[i] == this) continue; 
+                avgVelocity += neighbors[i]->getVelocity();
+                total++; 
             }
 
-        }
-        bool isClose(Boid*& boid){
-            float x1 = getPos().x;
-            float y1 = getPos().y; 
-            float x2 = boid->getPos().x; 
-            float y2 = boid->getPos().y; 
+            avgVelocity.x = avgVelocity.x / (neighbors.size() - 1);
+            avgVelocity.y = avgVelocity.y / (neighbors.size() - 1); 
 
-            float dist = pow(x2 - x1, 2) + pow(y2 - y1, 2); 
-            return (dist < pow(perception, 2));
-        }
+            avgVelocity = normalize(avgVelocity);
 
+            velocity = avgVelocity * maxSpeed;
+        }
         int getPerception(){
             return perception;
         }
@@ -80,9 +79,11 @@ class Boid{
     private: 
         sf::ConvexShape triangle; 
         sf::Vector2f velocity;
+
         int perception = 100;
         float maxSpeed = 2;
         float minSpeed = 0.1;
+        float maxForce = 1; 
 };
 
 
