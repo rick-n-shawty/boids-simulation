@@ -17,7 +17,7 @@ Canvas::Canvas(int width, int height){
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
     window.create(sf::VideoMode(width,height), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setFramerateLimit(20);
+    window.setFramerateLimit(30);
 }; 
 Canvas::~Canvas(){
     // clean up dynamically allocated boids 
@@ -57,8 +57,8 @@ void Canvas::update(float dt){
         queryRegion->x = boids[i]->getPos().x;
         queryRegion->y = boids[i]->getPos().y; 
         queryRegion->r = boids[i]->getPerception(); 
-
         qtree->query(queryRegion,foundBoids); 
+        
         boids[i]->ASC(foundBoids); // allignment, separation, cohesion 
         boids[i]->move();
         boids[i]->show(window); 

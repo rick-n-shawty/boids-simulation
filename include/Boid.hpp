@@ -35,30 +35,29 @@ class Boid{
             velocity = newVel; 
         }
         void move(){
-            triangle.move(velocity);
-            float y = triangle.getPosition().y; 
-            float x = triangle.getPosition().x; 
+            sf::Vector2f position = triangle.getPosition();
+            float x = position.x;
+            float y = position.y;
 
+            // Update position based on velocity
+            position += velocity;
 
-            if(x - 60 < 0){
-                triangle.setPosition(sf::Vector2f(WINDOW_WIDTH, y));
-                x = WINDOW_WIDTH; 
-            }else if(x + 60 > WINDOW_WIDTH){
-                triangle.setPosition(sf::Vector2f(0, y));
-                x = 0;
-            }
+            // Wrap around screen edges
+            if (position.x < 0) position.x += WINDOW_WIDTH;
+            else if (position.x >= WINDOW_WIDTH) position.x -= WINDOW_WIDTH;
 
-            if(y - 60 < 0){
-                triangle.setPosition(sf::Vector2f(x, WINDOW_HEIGHT));
-            }else if(y + 60 > WINDOW_HEIGHT){
-                triangle.setPosition(sf::Vector2f(x, 0));
-            }
+            if (position.y < 0) position.y += WINDOW_HEIGHT;
+            else if (position.y >= WINDOW_HEIGHT) position.y -= WINDOW_HEIGHT;
+
+            // Set new position
+            triangle.setPosition(position);
+  
         }
         void ASC(std::vector<Boid*>& neighbors){
 
 
             for(int i = 0; i < neighbors.size(); i++){
-                
+
             }
 
         }
