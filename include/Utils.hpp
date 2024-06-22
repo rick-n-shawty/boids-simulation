@@ -21,9 +21,7 @@ inline float vectorMag(sf::Vector2f vect){
 inline sf::Vector2f randomVelocity(float minMag, float maxMag){
     float angle = randomFloat(0.0f, 2.0f * M_PI); 
     sf::Vector2f direction(cos(angle), sin(angle));
-
     float magnitude = randomFloat(minMag, maxMag); 
-    std::cout << magnitude << "\n";
     sf::Vector2f velocity = direction * magnitude;
 
     return velocity; 

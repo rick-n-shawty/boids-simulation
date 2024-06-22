@@ -11,9 +11,13 @@ class Canvas{
         void run(); 
     private: 
         sf::RenderWindow window; 
+        sf::Clock clock;
+
         void handleEvents(); 
         void update(float dt);
         void render();
+
+        float totalTime = 0;
 
         std::vector<Boid*> boids;
 };

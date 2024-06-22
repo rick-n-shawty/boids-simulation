@@ -30,9 +30,10 @@ void Canvas::handleEvents(){
     }
     
 }
+
 void Canvas::update(float dt){
+    totalTime += dt; 
     for(int i = 0; i < boids.size(); i++){
-        // cout << "velX: " << boids[i]->getNormalVel().x << " velY: " << boids[i]->getNormalVel().y << '\n';
         sf::Vector2f avgVel;
         int count = 0;
         for(int j = 0; j < boids.size(); j++){
@@ -41,17 +42,13 @@ void Canvas::update(float dt){
                 count++; 
             }
         }
-        if(count != 0){
-            float mag = vectorMag(boids[i]->getVelocity()); 
-            // cout << "Magnitude: " << mag << "\n";
-            avgVel.x = (avgVel.x / count) ;
-            avgVel.y = (avgVel.y / count) ;
-            // cout << "X: " << avgVel.x << " Y: " << avgVel.y << "\n";
-        //     boids[i]->setVelocity(avgVel);
+        if(count != 0 && totalTime > 1.5){ // allignment 
+            avgVel.x = (avgVel.x / count);
+            avgVel.y = (avgVel.y / count);
+            boids[i]->setVelocity(avgVel);
         };
         boids[i]->move();
     }
-    // cout << boids[0]->getPos().x << "\n";
 }
 void Canvas::render(){
     window.clear(sf::Color::Black); 
@@ -64,8 +61,9 @@ void Canvas::render(){
 
 void Canvas::run(){
     while (window.isOpen()){
+        float dt = clock.restart().asSeconds();
         handleEvents(); 
-        update(1);
+        update(dt);
         render();
     }   
 }
