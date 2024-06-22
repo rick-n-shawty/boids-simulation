@@ -30,6 +30,15 @@ inline sf::Vector2f normalize(sf::Vector2f vector){
     }
     return vector;
 }
+
+inline sf::Vector2f limitMag(sf::Vector2f vector, float maxMagnitude){
+    float mag = vectorMagnitude(vector); 
+    if(mag > maxMagnitude){
+        vector *= maxMagnitude / mag;
+    }
+    return vector;
+}
+
 inline sf::Vector2f randomVelocity(float minMag, float maxMag){
     float angle = randomFloat(0.0f, 2.0f * M_PI); 
     sf::Vector2f direction(cos(angle), sin(angle));

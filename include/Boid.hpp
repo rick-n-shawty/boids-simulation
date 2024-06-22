@@ -55,20 +55,18 @@ class Boid{
         }
         void ASC(std::vector<Boid*>& neighbors){
             if(neighbors.size() < 2) return; 
-            int total = 0;
             sf::Vector2f avgVelocity; 
             for(int i = 0; i < neighbors.size(); i++){
                 if(neighbors[i] == this) continue; 
                 avgVelocity += neighbors[i]->getVelocity();
-                total++; 
             }
 
             avgVelocity.x = avgVelocity.x / (neighbors.size() - 1);
             avgVelocity.y = avgVelocity.y / (neighbors.size() - 1); 
+            avgVelocity = normalize(avgVelocity) * maxSpeed;
 
-            avgVelocity = normalize(avgVelocity);
-
-            velocity = avgVelocity * maxSpeed;
+            velocity += (avgVelocity - velocity);
+            velocity = limitMag(velocity, maxSpeed);
         }
         int getPerception(){
             return perception;

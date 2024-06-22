@@ -1,2 +1,4 @@
 # TODO
-- deal with max and min speeds (is it mag squared or simply mag?)
+- Steering vector
+- Position velocity vector relatively to the "head" of a boid 
+- 

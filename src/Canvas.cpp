@@ -10,14 +10,16 @@ Canvas::Canvas(int width, int height){
     queryRegion = new Circle(0,0,1);
     mainBounds = new Boundary(width / 2.0f, height / 2.0f, width, height);
     qtree = new QuadTree(mainBounds, 4);
+
+
     for(int i = 0; i < 50; i++){
-        boids.push_back(new Boid(randomInt(0,width),randomInt(0,height), 15, 30));
+        boids.push_back(new Boid(randomInt(0,width),randomInt(0,height), 30, sqrt(3)*15));
         qtree->insert(boids[i]);
     }
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
     window.create(sf::VideoMode(width,height), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setFramerateLimit(30);
+    window.setFramerateLimit(60);
 }; 
 Canvas::~Canvas(){
     // clean up dynamically allocated boids 
@@ -65,7 +67,7 @@ void Canvas::update(float dt){
     }
 }
 void Canvas::render(){
-    qtree->show(window);
+    // qtree->show(window);
     window.display();
 }
 
