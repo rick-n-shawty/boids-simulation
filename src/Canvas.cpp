@@ -7,11 +7,12 @@ using std::cout;
 
 
 Canvas::Canvas(int width, int height){
-    for(int i = 0; i < 20; i++){
-        boids.push_back(new Boid(randomInt(300,400),randomInt(200,300),15, 30));
-    }
     mainBounds = new Boundary(width / 2.0f, height / 2.0f, width, height);
     qtree = new QuadTree(mainBounds, 4);
+    for(int i = 0; i < 20; i++){
+        boids.push_back(new Boid(randomInt(300,400),randomInt(200,300),15, 30));
+        qtree->insert(boids[i]);
+    }
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
     window.create(sf::VideoMode(width,height), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
@@ -57,6 +58,7 @@ void Canvas::update(float dt){
             boids[i]->setVelocity(avgVel);
         };
         boids[i]->move();
+        qtree->insert(boids[i]);
     }
 }
 void Canvas::render(){
@@ -64,6 +66,7 @@ void Canvas::render(){
     for(int i = 0; i < boids.size(); i++){
         boids[i]->show(window);
     }
+    qtree->show(window);
     window.display();
 }
 

@@ -73,6 +73,23 @@ class QuadTree{
             }
             return foundBoids;
         }
+        void show(sf::RenderWindow& window){
+            window.draw(boundary->getShape());
+            if(isDivided){
+                if(NW != nullptr){
+                    NW->show(window);
+                }
+                if(NE != nullptr){
+                    NE->show(window); 
+                }
+                if(SW != nullptr){
+                    SW->show(window); 
+                }
+                if(SE != nullptr){
+                    SE->show(window);
+                }
+            }
+        }
     private: 
         int capacity;
         bool isDivided = false;

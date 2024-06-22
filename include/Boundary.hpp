@@ -18,6 +18,9 @@ class Boundary{
             ); 
         }
 
+        sf::RectangleShape getShape(){
+            return box; 
+        }
 
     private:
         sf::RectangleShape box; 
