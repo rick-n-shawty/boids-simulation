@@ -7,16 +7,17 @@ using std::cout;
 
 
 Canvas::Canvas(int width, int height){
+    queryRegion = new Circle(0,0,1);
     mainBounds = new Boundary(width / 2.0f, height / 2.0f, width, height);
     qtree = new QuadTree(mainBounds, 4);
     for(int i = 0; i < 20; i++){
-        boids.push_back(new Boid(randomInt(300,400),randomInt(200,300),15, 30));
+        boids.push_back(new Boid(randomInt(300,400),randomInt(200,300), 15, 30));
         qtree->insert(boids[i]);
     }
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 10;
     window.create(sf::VideoMode(width,height), "Boids", sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setFramerateLimit(90);
+    window.setFramerateLimit(20);
 }; 
 Canvas::~Canvas(){
     // clean up dynamically allocated boids 
@@ -26,6 +27,10 @@ Canvas::~Canvas(){
     if(qtree != nullptr){
         delete qtree; 
         qtree = nullptr;
+    }
+    if(queryRegion != nullptr){
+        delete queryRegion; 
+        queryRegion = nullptr; 
     }
 };
 void Canvas::handleEvents(){
@@ -40,32 +45,26 @@ void Canvas::handleEvents(){
 
 void Canvas::update(float dt){
     if(qtree != nullptr) qtree->clearExceptRoot();
-    foundBoids.clear();
-
     totalTime += dt; 
+
     for(int i = 0; i < boids.size(); i++){
-        sf::Vector2f avgVel;
-        int count = 0;
-        for(int j = 0; j < boids.size(); j++){
-            if(boids[i]->isClose(boids[j]) && boids[i] != boids[j]){
-                avgVel = avgVel + boids[j]->getNormalVel();
-                count++; 
-            }
-        }
-        if(count != 0 && totalTime > 1.5){ // allignment 
-            avgVel.x = (avgVel.x / count);
-            avgVel.y = (avgVel.y / count);
-            boids[i]->setVelocity(avgVel);
-        };
-        boids[i]->move();
         qtree->insert(boids[i]);
+    }
+
+    for(int i = 0; i < boids.size(); i++){
+        foundBoids.clear();
+
+        queryRegion->x = boids[i]->getPos().x;
+        queryRegion->y = boids[i]->getPos().y; 
+        queryRegion->r = boids[i]->getPerception(); 
+
+        qtree->query(queryRegion,foundBoids); 
+        boids[i]->ASC(foundBoids); // allignment, separation, cohesion 
+        boids[i]->move();
+        boids[i]->show(window); 
     }
 }
 void Canvas::render(){
-    window.clear(sf::Color::Black); 
-    for(int i = 0; i < boids.size(); i++){
-        boids[i]->show(window);
-    }
     qtree->show(window);
     window.display();
 }
@@ -73,6 +72,7 @@ void Canvas::render(){
 
 void Canvas::run(){
     while (window.isOpen()){
+        window.clear(sf::Color::Black);
         float dt = clock.restart().asSeconds();
         handleEvents(); 
         update(dt);

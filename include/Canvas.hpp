@@ -22,6 +22,7 @@ class Canvas{
 
         QuadTree* qtree;
         Boundary* mainBounds;
+        Circle* queryRegion; 
         std::vector<Boid*> boids;
         std::vector<Boid*> foundBoids; 
 };
