@@ -10,7 +10,12 @@ class Boundary{
         ~Boundary();  
 
         bool contains(Boid* boid){
-            return true;
+            return (
+                boid->getPos().x >= x - (w / 2) && 
+                boid->getPos().x <= x + (w / 2) && 
+                boid->getPos().y >= y - (h / 2) &&
+                boid->getPos().y <= y + (h / 2)
+            ); 
         }
 
 

@@ -54,6 +54,8 @@ class QuadTree{
             // Reset the isDivided flag
             isDivided = false;
         }
+        std::vector<Boid*> query(Boid*& boid, std::vector<Boid*>& foundBoids){
+        }
     private: 
         int capacity;
         bool isDivided = false;
