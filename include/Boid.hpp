@@ -72,20 +72,25 @@ class Boid{
                 distance = calcDistance(neighbors[i]->getPos(), this->getPos()); 
                 if(distance < protectedRange && distance != 0){
                     sepVector += (currentBoidPos - neighbors[i]->getPos());
+                    closeMatesCount+=1; 
                 }
             }
 
             // alignment 
             avgVelocity.x = avgVelocity.x / (neighbors.size() - 1);
             avgVelocity.y = avgVelocity.y / (neighbors.size() - 1); 
-            acceleration = (normalize(avgVelocity) * maxSpeed - velocity);
+            // acceleration = (normalize(avgVelocity) * maxSpeed - velocity);
 
             // cohesion 
             avgPosition.x = avgPosition.x / (neighbors.size() - 1); 
             avgPosition.y = avgPosition.y / (neighbors.size() - 1);
-            acceleration += (avgPosition - this->getPos());
+            // acceleration += (avgPosition - this->getPos());
 
             // separation 
+            if(closeMatesCount != 0){
+                // sepVector = sepVector / (float)closeMatesCount;
+            }
+            acceleration += sepVector * avoidFactor; 
 
 
 
@@ -93,7 +98,6 @@ class Boid{
             acceleration.y = acceleration.y * maxForce;
 
             velocity += acceleration; 
-            velocity += sepVector * avoidFactor;
             velocity = limitMag(velocity, maxSpeed);
         }
         int getPerception(){
@@ -108,12 +112,12 @@ class Boid{
         sf::Vector2f velocity;
         sf::Vector2f acceleration; 
 
-        int perception = 50;
+        int perception = 100;
         float maxSpeed = 4;
         float minSpeed = 1;
-        float maxForce = 0.01; 
-        float protectedRange = 40; 
-        float avoidFactor = 1; 
+        float maxForce = 0.02; 
+        int protectedRange = 100; 
+        float avoidFactor = 100; 
 };
 
 

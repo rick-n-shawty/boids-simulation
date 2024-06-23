@@ -25,10 +25,7 @@ inline float vectorMagSquared(sf::Vector2f vect){
     return (pow(vect.x, 2) + pow(vect.y, 2)); 
 }
 inline float calcDistance(sf::Vector2f a, sf::Vector2f b){
-    sf::Vector2f dist; 
-    dist.x = pow(a.x - b.x, 2);
-    dist.y = pow(a.y - b.y, 2); 
-    return vectorMagnitude(dist);
+    return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
 inline sf::Vector2f normalize(sf::Vector2f vector){
