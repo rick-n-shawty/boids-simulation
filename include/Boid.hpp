@@ -55,33 +55,45 @@ class Boid{
         }
         void ASC(std::vector<Boid*>& neighbors){
             if(neighbors.size() < 2) return; 
+            sf::Vector2f currentBoidPos = this->getPos();
+
+
             sf::Vector2f avgVelocity; 
             sf::Vector2f avgPosition; 
+            sf::Vector2f sepVector;
+            float distance; 
+            int closeMatesCount = 0;
+
             for(int i = 0; i < neighbors.size(); i++){
                 if(neighbors[i] == this) continue; 
                 avgVelocity += neighbors[i]->getVelocity();
                 avgPosition += neighbors[i]->getPos();
+
+                distance = calcDistance(neighbors[i]->getPos(), this->getPos()); 
+                if(distance < protectedRange && distance != 0){
+                    sepVector += (currentBoidPos - neighbors[i]->getPos());
+                }
             }
 
             // alignment 
             avgVelocity.x = avgVelocity.x / (neighbors.size() - 1);
             avgVelocity.y = avgVelocity.y / (neighbors.size() - 1); 
-            // acceleration = (normalize(avgVelocity) * maxSpeed - velocity);
+            acceleration = (normalize(avgVelocity) * maxSpeed - velocity);
 
             // cohesion 
             avgPosition.x = avgPosition.x / (neighbors.size() - 1); 
             avgPosition.y = avgPosition.y / (neighbors.size() - 1);
+            acceleration += (avgPosition - this->getPos());
 
-            acceleration = (avgPosition - this->getPos());
+            // separation 
 
 
-            // velocity += (avgVelocity - velocity);
-            // velocity += (avgPosition - this->getPos()); 
 
             acceleration.x = acceleration.x * maxForce; 
             acceleration.y = acceleration.y * maxForce;
 
             velocity += acceleration; 
+            velocity += sepVector * avoidFactor;
             velocity = limitMag(velocity, maxSpeed);
         }
         int getPerception(){
@@ -99,7 +111,9 @@ class Boid{
         int perception = 50;
         float maxSpeed = 4;
         float minSpeed = 1;
-        float maxForce = 0.02; 
+        float maxForce = 0.01; 
+        float protectedRange = 40; 
+        float avoidFactor = 1; 
 };
 
 
