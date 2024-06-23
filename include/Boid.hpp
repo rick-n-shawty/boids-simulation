@@ -56,16 +56,32 @@ class Boid{
         void ASC(std::vector<Boid*>& neighbors){
             if(neighbors.size() < 2) return; 
             sf::Vector2f avgVelocity; 
+            sf::Vector2f avgPosition; 
             for(int i = 0; i < neighbors.size(); i++){
                 if(neighbors[i] == this) continue; 
                 avgVelocity += neighbors[i]->getVelocity();
+                avgPosition += neighbors[i]->getPos();
             }
 
+            // alignment 
             avgVelocity.x = avgVelocity.x / (neighbors.size() - 1);
             avgVelocity.y = avgVelocity.y / (neighbors.size() - 1); 
-            avgVelocity = normalize(avgVelocity) * maxSpeed;
+            // acceleration = (normalize(avgVelocity) * maxSpeed - velocity);
 
-            velocity += (avgVelocity - velocity);
+            // cohesion 
+            avgPosition.x = avgPosition.x / (neighbors.size() - 1); 
+            avgPosition.y = avgPosition.y / (neighbors.size() - 1);
+
+            acceleration = (avgPosition - this->getPos());
+
+
+            // velocity += (avgVelocity - velocity);
+            // velocity += (avgPosition - this->getPos()); 
+
+            acceleration.x = acceleration.x * maxForce; 
+            acceleration.y = acceleration.y * maxForce;
+
+            velocity += acceleration; 
             velocity = limitMag(velocity, maxSpeed);
         }
         int getPerception(){
@@ -78,11 +94,12 @@ class Boid{
         // sf::ConvexShape triangle; 
         sf::CircleShape circle; 
         sf::Vector2f velocity;
+        sf::Vector2f acceleration; 
 
-        int perception = 100;
+        int perception = 50;
         float maxSpeed = 4;
         float minSpeed = 1;
-        float maxForce = 1; 
+        float maxForce = 0.02; 
 };
 
 
