@@ -11,7 +11,7 @@ Canvas::Canvas(int width, int height){
     mainBounds = new Boundary(width / 2.0f, height / 2.0f, width, height);
     qtree = new QuadTree(mainBounds, 4);
     for(int i = 0; i < 50; i++){
-        boids.push_back(new Boid(randomInt(0,width),randomInt(0,height), 30, sqrt(3)*15));
+        boids.push_back(new Boid(randomInt(0,width),randomInt(0,height), 30, 5));
         qtree->insert(boids[i]);
     }
     sf::ContextSettings settings; 

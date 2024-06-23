@@ -10,10 +10,10 @@ class Boid{
         Boid(float x, float y, float width, float height); 
         ~Boid(); 
         void show(sf::RenderWindow& window){
-            window.draw(triangle);
+            window.draw(circle);
         }
         sf::Vector2f getPos(){
-            return triangle.getPosition(); 
+            return circle.getPosition(); 
         }
         sf::Vector2f getVelocity(){
             return velocity; 
@@ -35,7 +35,7 @@ class Boid{
             velocity = newVel; 
         }
         void move(){
-            sf::Vector2f position = triangle.getPosition();
+            sf::Vector2f position = circle.getPosition();
             float x = position.x;
             float y = position.y;
 
@@ -50,7 +50,7 @@ class Boid{
             else if (position.y >= WINDOW_HEIGHT) position.y -= WINDOW_HEIGHT;
 
             // Set new position
-            triangle.setPosition(position);
+            circle.setPosition(position);
   
         }
         void ASC(std::vector<Boid*>& neighbors){
@@ -75,12 +75,13 @@ class Boid{
             perception = newPerception;
         }
     private: 
-        sf::ConvexShape triangle; 
+        // sf::ConvexShape triangle; 
+        sf::CircleShape circle; 
         sf::Vector2f velocity;
 
         int perception = 100;
-        float maxSpeed = 2;
-        float minSpeed = 0.1;
+        float maxSpeed = 4;
+        float minSpeed = 1;
         float maxForce = 1; 
 };
 
