@@ -20,7 +20,7 @@ Boid::Boid(float x, float y, float width, float height){
 
     circle.setPosition(sf::Vector2f(x, y)); 
     circle.setRadius(height); 
-    circle.setFillColor(sf::Color::Red); 
+    circle.setFillColor(sf::Color::Black); 
 
 
     // set up initial velocity 
