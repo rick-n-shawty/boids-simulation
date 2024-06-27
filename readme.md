@@ -23,7 +23,7 @@ In cohesion, a boid always steers towards the center of mass of the nearby boids
 ### Separation 
 This rule produces introveted boids... If boid B is withing a protected range of boid A, boid A tries to steer away from boid B. 
 
-Combining these rules yields a beutiful emergent behaviour. If you are curious,
+Combining these rules yields a beautiful emergent behaviour. If you are curious,
 More details can be found [here](https://en.wikipedia.org/wiki/Boids). 
 
 
