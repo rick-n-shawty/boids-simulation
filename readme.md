@@ -10,9 +10,9 @@ The primary goal of the algorithm is to simulate behaviour of birds in a group m
 
 ## Algorithm Description 
 The algorithm adheres to THREE rules: 
-- 1) Allignment 
-- 2) Cohesion 
-- 3) Separation 
+- Allignment 
+- Cohesion 
+- Separation 
 ### Allignment 
 Essentialy, an individual boids tries to adjust its velocity towards the average direction of the near 
 flockmates. By "near", I mean the perception range of each boid. 
