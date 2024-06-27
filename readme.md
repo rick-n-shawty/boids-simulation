@@ -1,7 +1,7 @@
 # Flocking Simulation 
 
 ## Demo
-
+![](https://github.com/rick-n-shawty/boids-simulation/blob/main/BoidVid.gif)
 
 
 ## Background 
