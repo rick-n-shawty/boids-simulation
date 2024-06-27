@@ -14,8 +14,8 @@ The algorithm adheres to THREE rules:
 - Cohesion 
 - Separation 
 ### Allignment 
-Essentialy, an individual boids tries to adjust its velocity towards the average direction of the near 
-flockmates. By "near", I mean the perception range of each boid. 
+Essentialy, an individual boids tries to adjust its velocity towards the average direction of the nearby 
+flockmates. By "nearby", I mean the perception range of each boid. 
 
 ### Cohesion 
 In cohesion, a boid always steers towards the center of mass of the nearby boids. 
